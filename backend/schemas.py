@@ -8,8 +8,8 @@ class ProductCreate(BaseModel):
 
     sku: str = Field(pattern=r"^[A-Z0-9-]{3,24}$")
     name: str = Field(min_length=3, max_length=80)
-    price_minor: int = Field(ge=1, strict=True)
-    stock: int = Field(ge=0, strict=True)
+    price_minor: int = Field(ge=1, le=2_000_000_000, strict=True)
+    stock: int = Field(ge=0, le=1_000_000, strict=True)
    
 
 class ProductOut(ProductCreate):
@@ -23,8 +23,8 @@ class ProductPatch(BaseModel):
     )
 
     name: str | None = Field(default=None, min_length=3, max_length=80)
-    price_minor: int | None = Field(default=None, ge=1, strict=True)
-    stock: int | None = Field(default=None, ge=0, strict=True)
+    price_minor: int | None = Field(default=None, ge=1, le=2_000_000_000,strict=True)
+    stock: int | None = Field(default=None, ge=0, le=1_000_000, strict=True)
 
     @model_validator(mode="after")
     def check_changes(self):
@@ -44,3 +44,7 @@ class ProductPage(BaseModel):
   total: int
   offset: int
   limit: int
+
+class ProductBatch(BaseModel):
+  model_config = ConfigDict(extra="forbid")
+  products: list[ProductCreate] = Field(min_length=1, max_length=20)
