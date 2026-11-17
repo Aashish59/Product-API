@@ -1,0 +1,76 @@
+
+body {
+  margin: 0;
+  font: 16px/1.5 system-ui, sans-serif;
+  background: #f3f6f8;
+  color: #193247;
+}
+
+main {
+  max-width: 1000px;
+  margin: auto;
+  padding: 24px;
+}
+
+form,
+section {
+  background: white;
+  padding: 18px;
+  border-radius: 10px;
+  margin-bottom: 18px;
+}
+
+fieldset {
+  border: 0;
+  padding: 0;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+label {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 6px;
+}
+
+input,
+select,
+button {
+  font: inherit;
+  padding: 8px;
+}
+
+button {
+  margin: 6px;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+}
+
+th,
+td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #d8e2e8;
+}
+
+[role="alert"] {
+  color: #a31525;
+}
+
+@media (max-width: 650px) {
+  section {
+    overflow-x: auto;
+  }
+}
