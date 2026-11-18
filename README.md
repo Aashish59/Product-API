@@ -85,3 +85,34 @@ Try a batch with a duplicate; confirm no partial rows remain.
 Local, unauthenticated SQL/persistence exercise.
 Initialization creates missing tables; it is not a migration system.
 The final e-commerce rebuild still targets Firebase/Firestore.
+
+# Day 3 React Product Client
+
+## Requirements
+
+Supported Node LTS; Node 24 is suitable for this toolchain.
+Existing Day 2 API on http://127.0.0.1:8000.
+
+## Install and run from frontend/
+
+npm install
+npm run dev
+Open http://127.0.0.1:5173
+Keep the API running in its own terminal.
+
+## Test and build from frontend/
+
+npm test
+npm run build
+Baseline: 14 frontend checks. Existing backend: 43 checks.
+
+## Request path
+
+Browser /api/products -> Vite proxy -> API /products.
+Set API_TARGET before starting Vite to choose another API address.
+Production hosting must deliberately route /api to the backend.
+
+## Reproduce later
+
+Commit package-lock.json; use npm ci with that lockfile.
+See docs/day03.md for browser evidence and remaining gaps.
