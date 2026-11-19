@@ -39,6 +39,7 @@ def create_app(db_path: str | Path | None = None) -> FastAPI:
     )
 
     app.include_router(router)
+    app.include_router(checkout_router)
 
     return app
 
