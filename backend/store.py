@@ -18,6 +18,7 @@ class Catalog:
         with self._lock:
             return self._items[product_id].model_copy()
 
+
     def create(self, data: ProductCreate) -> ProductOut:
         with self._lock:
             if any(p.sku == data.sku for p in self._items.values()):
