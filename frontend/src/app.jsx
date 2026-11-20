@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import * as api from "./api.js";
 import ProductForm from "./ProductForm.jsx";
+import CartPanel from "./CartPanel.jsx";
 
 const LIMIT = 5;
 
@@ -38,10 +39,7 @@ export default function App() {
     }));
 
     api
-      .getProducts(
-        { ...filters, limit: LIMIT },
-        controller.signal
-      )
+      .getProducts({ ...filters, limit: LIMIT }, controller.signal)
       .then((data) => {
         if (controller.signal.aborted) return;
 
@@ -156,6 +154,11 @@ export default function App() {
         </p>
       )}
 
+      <CartPanel
+        products={page.items}
+        onComplete={refresh}
+      />
+
       <ProductForm
         key={editing?.id ?? "new"}
         product={editing}
@@ -228,17 +231,13 @@ export default function App() {
               <table>
                 <thead>
                   <tr>
-                    {[
-                      "SKU",
-                      "Name",
-                      "Price",
-                      "Stock",
-                      "Actions",
-                    ].map((label) => (
-                      <th key={label} scope="col">
-                        {label}
-                      </th>
-                    ))}
+                    {["SKU", "Name", "Price", "Stock", "Actions"].map(
+                      (label) => (
+                        <th key={label} scope="col">
+                          {label}
+                        </th>
+                      )
+                    )}
                   </tr>
                 </thead>
 
@@ -293,9 +292,7 @@ export default function App() {
             </button>
 
             <button
-              disabled={
-                busy || filters.offset + LIMIT >= page.total
-              }
+              disabled={busy || filters.offset + LIMIT >= page.total}
               onClick={() =>
                 setFilters((old) => ({
                   ...old,

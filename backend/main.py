@@ -7,6 +7,8 @@ from fastapi import FastAPI
 
 from catalog import SQLiteCatalog
 from routes import router
+from checkout import router as checkout_router, initialize_orders
+
 
 
 def create_app(db_path: str | Path | None = None) -> FastAPI:
@@ -28,6 +30,7 @@ def create_app(db_path: str | Path | None = None) -> FastAPI:
     async def lifespan(app: FastAPI):
         catalog = SQLiteCatalog(path)
         catalog.initialize()
+        initialize_orders(path)
         app.state.catalog = catalog
 
         yield

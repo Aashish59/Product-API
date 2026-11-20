@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const initial = (product) => ({
   sku: product?.sku ?? "",
@@ -16,6 +16,11 @@ export default function ProductForm({
 }) {
   const [values, setValues] = useState(() => initial(product));
 
+  // Update form fields whenever the selected product changes.
+  useEffect(() => {
+    setValues(initial(product));
+  }, [product]);
+
   function change(event) {
     const { name, value } = event.target;
 
@@ -29,6 +34,7 @@ export default function ProductForm({
     event.preventDefault();
 
     const ok = await onSave({
+      ...(product ? { id: product.id } : {}),
       ...values,
       name: values.name.trim(),
       price_minor: Number(values.price_minor),
@@ -97,7 +103,7 @@ export default function ProductForm({
           />
         </label>
 
-        <button type="submit">
+        <button type="submit" disabled={busy}>
           {busy
             ? "Saving..."
             : product
@@ -106,7 +112,11 @@ export default function ProductForm({
         </button>
 
         {product && (
-          <button type="button" onClick={onCancel}>
+          <button
+            type="button"
+            onClick={onCancel}
+            disabled={busy}
+          >
             Cancel edit
           </button>
         )}

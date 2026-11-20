@@ -8,9 +8,7 @@ export class ApiError extends Error {
 }
 
 function errorMessage(detail, status) {
-  if (typeof detail === "string") {
-    return detail;
-  }
+  if (typeof detail === "string") return detail;
 
   if (Array.isArray(detail)) {
     return detail
@@ -32,25 +30,17 @@ async function request(path, options = {}) {
       ...options,
       headers: {
         Accept: "application/json",
-        ...(options.body
-          ? { "Content-Type": "application/json" }
-          : {}),
+        ...(options.body ? { "Content-Type": "application/json" } : {}),
         ...options.headers,
       },
     });
   } catch (error) {
-    if (error.name === "AbortError") {
-      throw error;
-    }
+    if (error.name === "AbortError") throw error;
 
-    throw new ApiError(
-      "Cannot reach API. Check the servers and proxy."
-    );
+    throw new ApiError("Cannot reach API. Check the servers and proxy.");
   }
 
-  if (response.status === 204) {
-    return null;
-  }
+  if (response.status === 204) return null;
 
   const text = await response.text();
 
@@ -77,10 +67,7 @@ async function request(path, options = {}) {
 }
 
 export function getProducts(params, signal) {
-  return request(
-    `/products?${new URLSearchParams(params)}`,
-    { signal }
-  );
+  return request(`/products?${new URLSearchParams(params)}`, { signal });
 }
 
 export function createProduct(data) {
@@ -100,5 +87,12 @@ export function updateProduct(id, changes) {
 export function deleteProduct(id) {
   return request(`/products/${id}`, {
     method: "DELETE",
+  });
+}
+
+export function checkout(data) {
+  return request("/checkout", {
+    method: "POST",
+    body: JSON.stringify(data),
   });
 }

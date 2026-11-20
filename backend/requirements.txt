@@ -161,3 +161,8 @@ typing_extensions==4.16.0
 unique-identifier-msgs==2.5.1
 uvicorn==0.54.0
 visualization-msgs==5.3.8
+fastapi==0.162.0
+pydantic==2.14.3
+uvicorn==0.54.0
+httpx==0.28.1
+pytest==9.2.0
